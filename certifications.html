@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications - Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: rgba(255, 255, 255, 0.853);
+            font-family:Lato;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: none;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Interactive background */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glowing effect for cards */
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(255, 208, 0, 0.3);
+            transition: box-shadow 0.5s ease;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: gold;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, background-color 0.3s ease-in-out, width 0.3s ease, height 0.3s ease;
+        }
+        
+        .custom-cursor.expanded {
+            width: 200px; 
+            height: 200px; 
+            background-color: gold;
+            mix-blend-mode: difference;
+        }
+
+        header, footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.853);
+            font-size: 1.125rem;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            cursor: none !important;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .social-icon {
+            color: rgba(255, 255, 255, 0.853);
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .hover-element {
+            cursor: none;
+        }
+
+        /* Certification specific styles */
+        .certifications-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .certification-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+        }
+
+        .certification-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 208, 0, 0.521);
+        }
+
+        .certification-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .certification-content {
+            padding: 1.5rem;
+            cursor: default; 
+        }
+
+        .certification-title {
+            font-size: 1.5rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .certification-issuer {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .certification-date {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .certification-description {
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .certification-link {
+            display: inline-block;
+            background-color: rgba(255, 208, 0, 0.901);
+            color: black;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .certification-link:hover {
+            background-color: rgba(255, 238, 0, 0.975);
+            transform: translateY(-3px);
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .filter-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.853);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-button:hover, .filter-button.active {
+            background-color: rgba(255, 208, 0, 0.901);
+            color: black;
+        }
+        
+        /* Typewriter effect styles */
+        .typewriter-title {
+            display: inline-block;
+            font-size: 3rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 2rem;
+            text-align: center;
+            overflow: hidden;
+            border-right: 0.15em solid rgba(255, 208, 0, 0.6);
+            white-space: nowrap;
+            letter-spacing: 0.05em;
+            animation: blink-caret 0.75s step-end infinite;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(255, 208, 0, 0.3);
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: rgba(255, 208, 0, 0.6) }
+        }
+
+        /* Floating animation for particles */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="custom-cursor" id="customCursor"></div>
+    
+    <header>
+        <div class="hover-element">
+            <a href="index.html">
+                <img src="sid_logo.jpg" alt="Logo" class="logo">
+            </a>
+        </div>
+        <nav>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="About.html" class="nav-link">About Me</a>
+            <a href="projects.html" class="nav-link">Project</a> 
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <!-- Added typewriter title -->
+        <h1 id="typewriter-title" class="typewriter-title hover-element"></h1>
+        
+        <div class="filter-container">
+            <button class="filter-button active" data-filter="all">All</button>
+            <button class="filter-button" data-filter="web">Web Development</button>
+            <button class="filter-button" data-filter="data">Data & AI</button>
+            <button class="filter-button" data-filter="design">Programming</button>
+            <button class="filter-button" data-filter="other">Other</button>
+        </div>
+        
+        <div class="certifications-container animate__animated animate__fadeIn">
+            <!-- Cloud Computing Certifications -->
+            <div class="certification-card hover-element" data-category="other">
+                <img src="/api/placeholder/400/200" alt="AWS Cloud Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">AWS Cloud Technical Essentials</h3>
+                    <p class="certification-issuer">Coursera</p>
+                    <p class="certification-date">December 2, 2023</p>
+                    <p class="certification-description">This course provides an in-depth understanding of AWS services, including EC2, S3, and RDS, and their practical applications in cloud computing.</p>
+                    <a href="https://drive.google.com/file/d/1F2tKdKmQNMYQEs7KjxKfcdsA1LUQ6MWM/view?usp=sharing " class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <div class="certification-card hover-element" data-category="other">
+                <img src="/api/placeholder/400/200" alt="AWS Security Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">AWS Fundamentals: Addressing Security Risk</h3>
+                    <p class="certification-issuer">Coursera</p>
+                    <p class="certification-date">December 2, 2023</p>
+                    <p class="certification-description">This certification focuses on understanding AWS security best practices, risk management, and implementing secure cloud solutions to protect sensitive data and applications.</p>
+                    <a href="https://drive.google.com/file/d/1F2tKdKmQNMYQEs7KjxKfcdsA1LUQ6MWM/view?usp=sharing " class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <!-- AI Certifications -->
+            <div class="certification-card hover-element" data-category="data">
+                <img src="/api/placeholder/400/200" alt="Generative AI Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">Generative AI</h3>
+                    <p class="certification-issuer">Google</p>
+                    <p class="certification-date">July 10, 2024</p>
+                    <p class="certification-description">Comprehensive course on generative AI concepts, applications, and implementation strategies using Google's AI tools and frameworks.</p>
+                    <a href="https://drive.google.com/file/d/1ltl3p19RPLs2i_RX6mwOu8Ld8-wx7bZn/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <div class="certification-card hover-element" data-category="data">
+                <img src="/api/placeholder/400/200" alt="AI Ethics Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">Ethics in the Age of Generative AI</h3>
+                    <p class="certification-issuer">LinkedIn</p>
+                    <p class="certification-date">July 20 2024</p>
+                    <p class="certification-description">This course explores ethical considerations, challenges, and best practices in the development and deployment of generative AI technologies.</p>
+                    <a href="https://drive.google.com/file/d/1FuvQ6SMA1iMKdlFhvYhDlZyW9YZ0UykB/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <!-- Programming Languages Certifications -->
+            <div class="certification-card hover-element" data-category="design">
+                <img src="/api/placeholder/400/200" alt="Java Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">Java Programming</h3>
+                    <p class="certification-issuer">Great Learning Academy</p>
+                    <p class="certification-date">May 2024</p>
+                    <p class="certification-description">Comprehensive course covering Java programming fundamentals, object-oriented concepts, and application development practices.</p>
+                    <a href="https://drive.google.com/file/d/1E8ZR5cGcic5AgfEvJ_PPAcvxn-2ElK8H/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            <div class="certification-card hover-element" data-category="design">
+                <img src="/api/placeholder/400/200" alt="Advanced C++ Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">Advanced C++ Programming</h3>
+                    <p class="certification-issuer">IIT Bombay</p>
+                    <p class="certification-date">March 24, 2025</p>
+                    <p class="certification-description">Comprehensive course covering Java programming fundamentals, object-oriented concepts, and application development practices.</p>
+                    <a href="https://drive.google.com/file/d/1_SY9TCvM0Q6QaTRUnUH1wmuMEr8fj9t1/view?usp=sharing " class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <div class="certification-card hover-element" data-category="design">
+                <img src="/api/placeholder/400/200" alt="Java Networking Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">Networking in Java</h3>
+                    <p class="certification-issuer">Great Learning Academy</p>
+                    <p class="certification-date">August 2024</p>
+                    <p class="certification-description">Advanced course on implementing network programming concepts and building networked applications using Java technologies.</p>
+                    <a href="https://drive.google.com/file/d/1VTMyK4U81e40eQrr7-qhPXG9sgYwLjfN/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <!-- Database Certification -->
+            <div class="certification-card hover-element" data-category="data">
+                <img src="/api/placeholder/400/200" alt="DBMS Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">DBMS Management System part-1</h3>
+                    <p class="certification-issuer">Infosys</p>
+                    <p class="certification-date">April 22, 2024</p>
+                    <p class="certification-description">This certification covers the fundamentals of database management systems, including relational database design, SQL queries, and database normalization techniques.</p>
+                    <a href="https://drive.google.com/file/d/1MWHmpxXYnNnOdRg0CwHr3XAgEom6OBun/view?usp=sharing " class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <!-- Web Development Certifications -->
+            <div class="certification-card hover-element" data-category="web">
+                <img src="/api/placeholder/400/200" alt="MERN Stack Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">MERN Stack Development</h3>
+                    <p class="certification-issuer">WSA Academy</p>
+                    <p class="certification-date">February 12 - April 23, 2024</p>
+                    <p class="certification-description">a MERN stack project designed to provide a seamless hotel rental and management experience. It features user authentication, property listings, booking functionality.Developed using HTML, CSS, JavaScript, Tailwind CSS, MongoDB, Express.js, Node.js, and React.js.</p>
+                    <a href="https://drive.google.com/file/d/1TGZndXwraHD0b8GYGTB08ET0db2gdPp9/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+
+            <div class="certification-card hover-element" data-category="web">
+                <img src="/api/placeholder/400/200" alt="Angular Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">Angular</h3>
+                    <p class="certification-issuer">Infosys</p>
+                    <p class="certification-date">March 9, 2025</p>
+                    <p class="certification-description">Comprehensive course on Angular framework, covering components, services, routing, and building single-page applications.</p>
+                    <a href="https://drive.google.com/file/d/1N8FAVaW3WCXx1xDcklr0wb9PHEh2UMH3/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <div class="certification-card hover-element" data-category="web">
+                <img src="/api/placeholder/400/200" alt="CSS3 Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">CSS3</h3>
+                    <p class="certification-issuer">Infosys</p>
+                    <p class="certification-date">January 31, 2025</p>
+                    <p class="certification-description">In-depth course on modern CSS3 techniques, responsive design principles, animations, and layout methodologies.</p>
+                    <a href="https://drive.google.com/file/d/1E1LUvcED5GJQHf3Xc0dI_85TRIkCmyfQ/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <!-- Hackathon Certification -->
+            <div class="certification-card hover-element" data-category="other">
+                <img src="/api/placeholder/400/200" alt="Hackathon Certificate" class="certification-image">
+                <div class="certification-content">
+                    <h3 class="certification-title">Duhacks 4.0</h3>
+                    <p class="certification-issuer">Hackathon</p>
+                    <p class="certification-date">February 22 - 23, 2025</p>
+                    <p class="certification-description">Participated in the Duhacks 4.0 hackathon, demonstrating problem-solving skills, teamwork, and innovative thinking under time constraints.</p>
+                    <a href="https://drive.google.com/file/d/1dQWlNLSX0Odn05sDjXsMMesblB2CnaRJ/view?usp=drive_link" class="certification-link">View Certificate</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div>
+            <a href="https://github.com/Sidd1542004" class="icon social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/siddharth-v-826340307/" class="icon social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+    
+    <!-- Particles.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize particles.js
+            particlesJS("particles-js", {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffd700"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value":6,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffd700",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": true,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.6
+                            }
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Add glowing effect to certification cards
+            const certificationCards = document.querySelectorAll('.certification-card');
+            function addRandomGlow() {
+                certificationCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('glow-effect');
+                        setTimeout(() => {
+                            card.classList.remove('glow-effect');
+                        }, 1500);
+                    }, index * 200);
+                });
+                
+                // Repeat the glowing effect at random intervals
+                setTimeout(addRandomGlow, 5000 + Math.random() * 5000);
+            }
+            
+            // Start the random glowing effect
+            setTimeout(addRandomGlow, 2000);
+            
+            // Typewriter effect for "MY CERTIFICATIONS"
+            const titleElement = document.getElementById("typewriter-title");
+            const text = "MY CERTIFICATIONS";
+            let index = 0;
+            let isErasing = false;
+            let typingSpeed = 150; // Speed for typing
+            let erasingSpeed = 100; // Speed for erasing
+            let pauseBeforeErasing = 2000; // Pause before erasing starts
+            let pauseBeforeTyping = 500; // Pause before typing starts again
+
+            function typeWriter() {
+                if (index < text.length && !isErasing) {
+                    titleElement.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, typingSpeed);
+                } else if (index === text.length && !isErasing) {
+                    isErasing = true;
+                    setTimeout(eraseText, pauseBeforeErasing); // Pause before erasing
+                }
+            }
+
+            function eraseText() {
+                if (index > 0 && isErasing) {
+                    titleElement.innerHTML = text.substring(0, index - 1);
+                    index--;
+                    setTimeout(eraseText, erasingSpeed);
+                } else if (index === 0 && isErasing) {
+                    isErasing = false;
+                    setTimeout(typeWriter, pauseBeforeTyping); // Pause before typing again
+                }
+            }
+
+            titleElement.innerHTML = ""; // Clear existing text
+            typeWriter(); // Start the animation
+            
+            // Custom cursor
+            const cursor = document.getElementById('customCursor');
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            // Handle expanding cursor on hover
+            const hoverElements = document.querySelectorAll('.hover-element');
+            hoverElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('expanded');
+                });
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('expanded');
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('mouseenter', () => { cursor.style.display = 'none'; });
+                link.addEventListener('mouseleave', () => { cursor.style.display = 'block'; });
+            });
+            
+            const socialIcons = document.querySelectorAll('.social-icon');
+            socialIcons.forEach(icon => {
+                icon.addEventListener('mouseenter', () => { cursor.style.display = 'none'; });
+                icon.addEventListener('mouseleave', () => { cursor.style.display = 'block'; });
+            });
+            
+            // Handle certification content hover
+            const certificationContents = document.querySelectorAll('.certification-content');
+            certificationContents.forEach(content => {
+                content.addEventListener('mouseenter', () => { 
+                    cursor.style.display = 'none'; 
+                });
+                content.addEventListener('mouseleave', () => { 
+                    cursor.style.display = 'block'; 
+                });
+            });
+            
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-button');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // Get filter value
+                    const filterValue = button.getAttribute('data-filter');
+                    
+                    // Filter cards
+                    certificationCards.forEach(card => {
+                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

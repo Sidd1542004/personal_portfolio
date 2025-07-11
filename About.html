@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: rgba(255, 255, 255, 0.853);
+            font-family: Lato;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: gold;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, background-color 0.3s ease-in-out, width 0.3s ease, height 0.3s ease;
+        }
+        
+        .custom-cursor.expanded {
+            width: 200px; 
+            height: 200px; 
+            background-color: gold;
+            mix-blend-mode: difference;
+        }
+
+        header, footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.853);
+            font-size: 1.125rem;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .about-section {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .about-section {
+                flex-direction: row;
+            }
+        }
+
+        .profile {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 208, 0, 0.901);
+            margin-bottom: 1.5rem;
+            pointer-events: none; 
+        }
+
+        .bio {
+            flex: 2;
+        }
+
+        .bio p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+          
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 1rem;
+        }
+
+        .skills-container {
+            width: 100%;
+            margin-top: 3rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 208, 0, 0.2);
+        }
+
+        .skill-icon {
+            font-size:40px;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 208, 0, 0.901);
+        }
+
+        .timeline {
+            width: 100%;
+            margin-top: 3rem;
+            font-size: 1.2rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid rgba(255, 208, 0, 0.901);
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        .timeline-item:hover {
+            background-color: rgba(255, 208, 0, 0.1);
+            transform: translateX(10px);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.6rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .timeline-content p {
+            font-size: 1.3rem;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Animation styles for timeline */
+        .timeline-item.animate__fadeInLeft {
+            animation-duration: 1s;
+        }
+
+        .animate__delay-500ms {
+            animation-delay: 0.5s;
+        }
+
+        .animate__delay-1s {
+            animation-delay: 1s;
+        }
+
+        .animate__delay-2s {
+            animation-delay: 2s;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            cursor: none !important;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .social-icon {
+            color: rgba(255, 255, 255, 0.853);
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .hover-element {
+            cursor: none;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: rgba(255, 208, 0, 0.901);
+            color: black;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: rgba(255, 238, 0, 0.975);
+            transform: translateY(-3px);
+        }
+
+        /* Timeline items initially hidden and positioned for right-to-left animation */
+        .timeline-item.animate-in {
+            animation: slideInFromRight 0.8s ease forwards;
+        }
+
+        @keyframes slideInFromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            60% {
+                opacity: 0.8;
+                transform: translateX(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    
+    <header>
+        <div class="hover-element">
+            <img src="sid_logo.jpg" alt="Logo" class="logo">
+        </div>
+        <nav>
+            <a href="index.html" class="nav-link">Home</a>
+             <a href="projects.html" class="nav-link">Projects</a>
+            <a href="certifications.html" class="nav-link">Certifications</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="content-container">
+            <h1 class="animate__animated animate__fadeIn hover-element" id="dynamicTitle"></h1>
+            <section class="about-section animate__animated animate__fadeInUp">
+                <div class="profile">
+                    <img src="wmremove-transformed(2).png" class="profile-image hover-element">
+                    <div class="hover-element">
+                        <a href="https://drive.google.com/file/d/1HhmXbf1xPuQw2d3Sfp-QcDiab1Zmj2mF/view?usp=drive_link" class="cta-button" target="_blank">Download Resume</a>
+                    </div>
+                </div>
+                
+                <div class="bio">
+                    <p>
+                        Hello! I'm Siddharth V, a passionate developer with a keen interest in creating intuitive and impactful digital experiences. My journey in the tech world began with a curiosity for how things work, which eventually led me to pursue a career in software development.
+                    </p>
+                    <p>
+                        I specialize in full-stack development, with a particular focus on creating responsive and user-friendly web applications. My approach combines technical expertise with creative problem-solving, allowing me to build solutions that not only function effectively but also provide exceptional user experiences.
+                    </p>
+                    <p>
+                        When I'm not coding, you can find me posting posts on LinkedIn ,posting paintings on Instagram or on online games like Clash Of Clans,Modern Warships etc.
+                    </p>
+                </div>
+            </section>
+            
+            <section class="skills-container animate__animated animate__fadeIn">
+                <h2 class="hover-element">My Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-item hover-element">
+                        <i class="fab fa-html5 skill-icon"></i>
+                        <h3>HTML5</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fab fa-css3-alt skill-icon"></i>
+                        <h3>CSS3</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fab fa-js skill-icon"></i>
+                        <h3>JavaScript</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fab fa-react skill-icon"></i>
+                        <h3>React</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fab fa-node-js skill-icon"></i>
+                        <h3>Node.js</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fas fa-database skill-icon"></i>
+                        <h3>MongoDB</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fas fa-code skill-icon"></i>
+                        <h3>C</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fab fa-java skill-icon"></i>
+                        <h3>Java</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fas fa-pencil-ruler skill-icon"></i>
+                        <h3>UI/UX Design</h3>
+                    </div>
+                    <div class="skill-item hover-element">
+                        <i class="fas fa-mobile-alt skill-icon"></i>
+                        <h3>Responsive Design</h3>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="timeline animate__animated animate__fadeIn">
+                <h2 class="hover-element">Education</h2>
+                
+                <div class="timeline-item hover-element">
+                    <div class="timeline-date">2022 - Present</div>
+                    <div class="timeline-content">
+                        <h3>National Engineering College, Kovilpatti</h3>
+                        <p>CGPA - 7.58%</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item hover-element">
+                    <div class="timeline-date">2021 - 2022</div>
+                    <div class="timeline-content">
+                        <h3>Higher Secondary Education</h3>
+                        <p>Sri Jayendra Swamigal silver Jubilee ,Maharaja Nagar.</p>
+                        <h3>Percentage: 88.8%</h3>
+                    </div>
+                </div>
+                
+                <div class="timeline-item hover-element">
+                    <div class="timeline-date">2019-2020</div>
+                    <div class="timeline-content">
+                        <h3>Secondary School Leaving Certificate</h3>
+                        <p>Rose Mary Matric Hr.Sec.School ,Palayamkottai.</p>
+                        <h3>Percentage: 80.88%</h3>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div>
+            <a href="https://github.com/Sidd1542004" class="icon social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/siddharth-v-826340307/" class="icon social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const titleElement = document.getElementById("dynamicTitle");
+            const text = "ABOUT ME";
+            let index = 0;
+            let isErasing = false;
+
+            function typeWriter() {
+                if (index < text.length && !isErasing) {
+                    titleElement.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 150);
+                } else if (index === text.length) {
+                    isErasing = true;
+                    setTimeout(eraseText, 1000); // Pause before erasing
+                }
+            }
+
+            function eraseText() {
+                if (index > 0 && isErasing) {
+                    titleElement.innerHTML = text.substring(0, index - 1);
+                    index--;
+                    setTimeout(eraseText, 100);
+                } else if (index === 0) {
+                    isErasing = false;
+                    setTimeout(typeWriter, 500); // Pause before typing again
+                }
+            }
+
+            titleElement.innerHTML = ""; // Clear existing text
+            typeWriter(); // Start the animation
+
+            // Intersection Observer for timeline animations
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const timelineItems = document.querySelectorAll('.timeline-item');
+                        timelineItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('animate-in');
+                            }, index * 200); // Staggered delay
+                        });
+                        // Stop observing after animation is triggered
+                        timelineObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.3 // Trigger when 30% of the section is visible
+            });
+
+            // Observe the timeline section
+            const timelineSection = document.querySelector('.timeline');
+            if (timelineSection) {
+                timelineObserver.observe(timelineSection);
+            }
+        });
+            
+        const cursor = document.getElementById('customCursor');
+        document.addEventListener('mousemove', function(e) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Handle expanding cursor on hover
+        const hoverElements = document.querySelectorAll('.hover-element');
+        hoverElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('expanded');
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('expanded');
+            });
+        });
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => { cursor.style.display = 'none'; });
+            link.addEventListener('mouseleave', () => { cursor.style.display = 'block'; });
+        });
+        
+        const socialIcons = document.querySelectorAll('.social-icon');
+        socialIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', () => { cursor.style.display = 'none'; });
+            icon.addEventListener('mouseleave', () => { cursor.style.display = 'block'; });
+        });
+    </script>
+</body>
+</html>

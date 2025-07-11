@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: rgba(255, 255, 255, 0.853);
+            font-family: Lato;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: gold;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, background-color 0.3s ease-in-out, width 0.3s ease, height 0.3s ease;
+        }
+        
+        .custom-cursor.expanded {
+            width: 200px; 
+            height: 200px; 
+            background-color: gold;
+            mix-blend-mode: difference;
+        }
+
+        header, footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.853);
+            font-size: 1.125rem;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .contact-section {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .contact-section {
+                flex-direction: row;
+            }
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-form {
+            flex: 2;
+        }
+
+        .contact-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-right: 1rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .contact-text h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .contact-text p {
+            margin: 0.5rem 0 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: rgba(255, 208, 0, 0.901);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: rgba(255, 208, 0, 0.901);
+            transform: translateY(-3px);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: rgba(255, 208, 0, 0.901);
+            color: black;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: rgba(16, 16, 14, 0.901);
+            color: rgba(255, 208, 0, 0.901);
+            transform: translateY(-3px);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            cursor: none !important;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .social-icon {
+            color: rgba(255, 255, 255, 0.853);
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .hover-element {
+            cursor: none;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Added class for default cursor */
+        .use-default-cursor {
+            cursor: default !important;
+        }
+
+        @media (max-width: 767px) {
+            .contact-section {
+                gap: 2rem;
+            }
+        }
+        
+        /* Added for form notifications */
+        .form-notification {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            background-color: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: rgba(76, 175, 80, 1);
+        }
+        
+        .error-message {
+            background-color: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            color: rgba(244, 67, 54, 1);
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: rgba(255, 208, 0, 0.901);
+            animation: spin 1s ease-in-out infinite;
+            vertical-align: middle;
+            display: none;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    
+    <header>
+        <div class="hover-element">
+            <a href="index.html">
+                <img src="sid_logo.jpg" alt="Logo" class="logo">
+            </a>
+        </div>
+        <nav>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="About.html" class="nav-link">About Me</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="certifications.html" class="nav-link">Certifications</a>
+            
+        </nav>
+    </header>
+    
+    <main>
+        <div class="content-container">
+            <h1 id="typing-header" class="animate__animated hover-element"></h1>
+            
+            <section class="contact-section animate__animated animate__fadeIn">
+                <div class="contact-info">
+                    <div class="contact-card hover-element">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>Location</h3>
+                                <p>No:25, Yathavar 4th Street, Kurichi Main Road,Kulavanigarpuram,Palayamkottai,Tirunelveli, Tamil Nadu, India</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>Email</h3>
+                                <p>siddarth15042004@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>Phone</h3>
+                                <p>+91 7397053744</p>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="https://github.com/Sidd1542004" class="social-link" target="_blank">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/siddharth-v-826340307/" class="social-link" target="_blank">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://x.com/Siddharth150424" class="social-link" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.instagram.com/siddharth_venkatesan/" class="social-link" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container hover-element">
+                        <iframe 
+                        class="map-placeholder"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        loading="lazy" 
+                        allowfullscreen 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125792.87023622595!2d77.63932695925169!3d8.713912978004295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b03f04e5c65b70f%3A0x3c50e8bcdd9116d2!2sTirunelveli%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1647134026006!5m2!1sen!2sin">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div class="contact-form hover-element">
+                    <div class="contact-card">
+                        <div id="successMessage" class="form-notification success-message">
+                            Message sent successfully! I'll get back to you soon.
+                        </div>
+                        <div id="errorMessage" class="form-notification error-message">
+                            Something went wrong. Please try again later.
+                        </div>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Your Email</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Your Message</label>
+                                <textarea id="message" name="message" class="form-control" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn">
+                                <span id="submitSpinner" class="spinner"></span>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div>
+            <a href="https://github.com/Sidd1542004" class="icon social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/siddharth-v-826340307/" class="icon social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+    
+    <script>
+        const cursor = document.getElementById('customCursor');
+        document.addEventListener('mousemove', function(e) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Handle expanding cursor on logo and typing header
+        const expandElements = document.querySelectorAll('.logo, #typing-header');
+        expandElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('expanded');
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('expanded');
+            });
+        });
+
+        // Hide custom cursor on navigation links and social icons
+        const elementsToHideCursor = document.querySelectorAll('.nav-link, .social-icon');
+        elementsToHideCursor.forEach(element => {
+            element.addEventListener('mouseenter', () => { 
+                cursor.style.display = 'none'; 
+                element.classList.add('use-default-cursor');
+            });
+            element.addEventListener('mouseleave', () => { 
+                cursor.style.display = 'block'; 
+                element.classList.remove('use-default-cursor');
+            });
+        });
+
+        // Typing animation for "GET IN TOUCH"
+        document.addEventListener("DOMContentLoaded", function () {
+            const text = "GET IN TOUCH";
+            const typingElement = document.getElementById("typing-header");
+            let index = 0;
+
+            function typeText() {
+                if (index < text.length) {
+                    typingElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeText, 150);
+                } else {
+                    setTimeout(eraseText, 2000);
+                }
+            }
+
+            function eraseText() {
+                if (index > 0) {
+                    typingElement.textContent = text.substring(0, index - 1);
+                    index--;
+                    setTimeout(eraseText, 100);
+                } else {
+                    setTimeout(typeText, 500);
+                }
+            }
+
+            typeText();
+        });
+
+        // Email API Integration
+        document.addEventListener("DOMContentLoaded", function() {
+            const contactForm = document.getElementById('contactForm');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const submitSpinner = document.getElementById('submitSpinner');
+            
+            // Your API key
+            const apiKey = '5ffdcf51-09d6-4196-b149-57ac0ddb391f';
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading spinner
+                submitSpinner.style.display = 'inline-block';
+                
+                // Hide any previous notifications
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                // Get form data
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                // Prepare email data
+                const emailData = {
+                    to: 'siddarth15042004@gmail.com',
+                    from: email,
+                    subject: `Portfolio Contact: ${subject}`,
+                    body: `
+                        <h2>New Contact Form Submission</h2>
+                        <p><strong>Name:</strong> ${name}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Subject:</strong> ${subject}</p>
+                        <p><strong>Message:</strong></p>
+                        <p>${message}</p>
+                    `
+                };
+                
+                // Send email using fetch API
+                fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(emailData)
+                })
+                .then(response => {
+                    submitSpinner.style.display = 'none';
+                    
+                    if (response.ok) {
+                        // Show success message
+                        successMessage.style.display = 'block';
+                        // Clear form
+                        contactForm.reset();
+                    } else {
+                        // Show error message
+                        errorMessage.style.display = 'block';
+                        console.error('Email sending failed:', response);
+                    }
+                })
+                .catch(error => {
+                    submitSpinner.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                    console.error('Email sending error:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

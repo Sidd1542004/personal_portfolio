@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: rgba(255, 255, 255, 0.853);
+            font-family: Lato;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: none;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Interactive background */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glowing effect for cards */
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(255, 208, 0, 0.3);
+            transition: box-shadow 0.5s ease;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: gold;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, background-color 0.3s ease-in-out, width 0.3s ease, height 0.3s ease;
+        }
+        
+        .custom-cursor.expanded {
+            width: 200px; 
+            height: 200px; 
+            background-color: gold;
+            mix-blend-mode: difference;
+        }
+
+        header, footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.853);
+            font-size: 1.125rem;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            cursor: none !important;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .social-icon {
+            color: rgba(255, 255, 255, 0.853);
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .hover-element {
+            cursor: none;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .project-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .project-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 208, 0, 0.521);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+            color: rgba(255, 208, 0, 0.901);
+        }
+
+        .project-description {
+            margin: 0 0 1.5rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: rgba(255, 208, 0, 0.901);
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .project-link i {
+            margin-right: 0.5rem;
+        }
+
+        .project-link:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .use-default-cursor {
+            cursor: default !important;
+        }
+
+        .project-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.853);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .category-button.active {
+            background-color: rgba(255, 208, 0, 0.901);
+            color: black;
+        }
+
+        .category-button:hover {
+            background-color: rgba(255, 208, 0, 0.901);
+            color: black;
+        }
+        
+        /* Typewriter effect styles */
+        .typewriter-title {
+            display: inline-block;
+            font-size: 3rem;
+            color: rgba(255, 208, 0, 0.901);
+            margin-bottom: 2rem;
+            text-align: center;
+            overflow: hidden;
+            border-right: 0.15em solid rgba(255, 208, 0, 0.6);
+            white-space: nowrap;
+            letter-spacing: 0.05em;
+            animation: blink-caret 0.75s step-end infinite;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(255, 208, 0, 0.3);
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: rgba(255, 208, 0, 0.6) }
+        }
+
+        /* Floating animation for particles */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    <div id="particles-js"></div>
+    
+    <header>
+        <div class="hover-element">
+            <a href="index.html">
+                <img src="sid_logo.jpg" alt="Logo" class="logo">
+            </a>
+        </div>
+        <nav>
+            <a href="indes.html" class="nav-link">Home</a>
+            <a href="About.html" class="nav-link">About Me</a>
+            <a href="certifications.html" class="nav-link">Certifications</a>
+            <a href="contact.html" class="nav-link">Contacts</a>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="content-container">
+            <h1 id="typing-header" class="typewriter-title animate__animated hover-element"></h1>
+            
+            <div class="project-categories animate__animated animate__fadeIn">
+                <button class="category-button active" data-category="all">All</button>
+                <button class="category-button" data-category="web">Web Development</button>
+                <button class="category-button" data-category="mobile">Mini Projects</button>
+                <button class="category-button" data-category="ai">AI & UI/UX</button>
+            </div>
+            
+            <section class="project-grid animate__animated animate__fadeIn">
+                <!-- Project 1 -->
+                <div class="project-card hover-element glow-effect" data-category="ai">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="AI Content Generator NFT">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">AI Content Generator NFT</h3>
+                        <p class="project-description">An innovative AI-powered content generator that creates unique NFTs. Uses machine learning algorithms to generate creative content and mint it as blockchain-based non-fungible tokens.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">AI</span>
+                            <span class="project-tag">NFT</span>
+                            <span class="project-tag">Blockchain</span>
+                        </div>
+                        <div class="project-links">
+
+                            
+                            <a href="https://github.com/Sidd1542004/Sidd1542004-AI-Content_Generator-NFT" class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card hover-element glow-effect" data-category="web">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="Image Slider">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Image Slider</h3>
+                        <p class="project-description">A responsive image slider built with pure HTML and CSS. Features smooth transitions, navigation arrows, and automatic slideshow functionality with modern design aesthetics.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">Responsive</span>
+                            <span class="project-tag">Animation</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://19b08771-5500.inc1.devtunnels.ms/" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Sidd1542004/image_slider" class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card hover-element glow-effect" data-category="mobile">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="Number Guess Game">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Number Guess Game</h3>
+                        <p class="project-description">An interactive number guessing game built with React. Players try to guess a randomly generated number with hints and score tracking. Features modern UI and engaging gameplay.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">Game Logic</span>
+                            <span class="project-tag">Interactive UI</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://sidd1542004.github.io/number_game/" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Play Game
+                            </a>
+                            <a href="https://github.com/Sidd1542004/number_game" class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card hover-element glow-effect" data-category="mobile">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="Font Guess Game">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Font Guess Game</h3>
+                        <p class="project-description">A fun React-based game where players guess font names. Tests typography knowledge with various font families and styles. Includes scoring system and difficulty levels.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Typography</span>
+                            <span class="project-tag">Game Design</span>
+                            <span class="project-tag">CSS Fonts</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Play Game
+                            </a>
+                            <a href="https://github.com/Sidd1542004/guess_the_font" class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="project-card hover-element glow-effect" data-category="web">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="Portfolio Website">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Portfolio Website</h3>
+                        <p class="project-description">A responsive personal portfolio website showcasing projects, skills, and experience. Built with HTML, CSS, and JavaScript featuring custom animations and modern design.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">Responsive</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Live Site
+                            </a>
+                            <a href="https://github.com/Sidd1542004/portfolio" class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="project-card hover-element glow-effect" data-category="web">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="Zomato Landing Page">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Zomato Landing Page</h3>
+                        <p class="project-description">A pixel-perfect recreation of Zomato's landing page using HTML and CSS. Features responsive design, modern layouts, and smooth animations mimicking the original interface.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">Responsive</span>
+                            <span class="project-tag">UI Clone</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://sidd1542004.github.io/Zomato_Landing_Page/" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Sidd1542004/Zomato_Landing_Page" class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 7 -->
+                <div class="project-card hover-element glow-effect" data-category="ai">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="Purrfect Webstore">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Purrfect Webstore</h3>
+                        <p class="project-description">A comprehensive UI/UX design for an e-commerce pet store. Features user-friendly interface design, intuitive navigation, and engaging visual elements focused on pet products and services.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">UI/UX</span>
+                            <span class="project-tag">Design</span>
+                            <span class="project-tag">E-commerce</span>
+                            <span class="project-tag">User Research</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://siddarth15042004.wixsite.com/petshop" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> View Design
+                            </a>
+                            <a href="https://github.com/Sidd1542004/Purrfect_Web_Page" class="project-link">
+                                <i class="fab fa-figma"></i> Wix Studio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 8 -->
+                <div class="project-card hover-element glow-effect" data-category="mobile">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/200" alt="Chess Game">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Chess Game</h3>
+                        <p class="project-description">A fully functional chess game built with React. Features complete chess logic, move validation, checkmate detection, and an intuitive interface for strategic gameplay.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Game Logic</span>
+                            <span class="project-tag">Strategy</span>
+                            <span class="project-tag">Interactive</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Play Game
+                            </a>
+                            <a href="#" class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div>
+            <a href="https://github.com/Sidd1542004" class="icon social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/siddharth-v-826340307/" class="icon social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        particlesJS('particles-js',
+        {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#FFCC00"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#FFCC00",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 100,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // Custom cursor functionality
+        const cursor = document.getElementById('customCursor');
+        document.addEventListener('mousemove', function(e) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Handle expanding cursor on logo and typing header
+        const expandElements = document.querySelectorAll('.logo, #typing-header');
+        expandElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('expanded');
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('expanded');
+            });
+        });
+
+        // Hide custom cursor on navigation links and social icons
+        const elementsToHideCursor = document.querySelectorAll('.nav-link, .social-icon, .project-link, .category-button');
+        elementsToHideCursor.forEach(element => {
+            element.addEventListener('mouseenter', () => { 
+                cursor.style.display = 'none'; 
+                element.classList.add('use-default-cursor');
+            });
+            element.addEventListener('mouseleave', () => { 
+                cursor.style.display = 'block'; 
+                element.classList.remove('use-default-cursor');
+            });
+        });
+
+        // Typing animation for "MY PROJECTS"
+        document.addEventListener("DOMContentLoaded", function () {
+            const text = "MY PROJECTS";
+            const typingElement = document.getElementById("typing-header");
+            let index = 0;
+
+            function typeText() {
+                if (index < text.length) {
+                    typingElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeText, 150);
+                } else {
+                    setTimeout(eraseText, 2000);
+                }
+            }
+
+            function eraseText() {
+                if (index > 0) {
+                    typingElement.textContent = text.substring(0, index - 1);
+                    index--;
+                    setTimeout(eraseText, 100);
+                } else {
+                    setTimeout(typeText, 500);
+                }
+            }
+
+            typeText();
+        });
+
+        // Filter projects by category
+        document.addEventListener("DOMContentLoaded", function () {
+            const categoryButtons = document.querySelectorAll('.category-button');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    const category = button.getAttribute('data-category');
+                    
+                    // Filter projects
+                    projectCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

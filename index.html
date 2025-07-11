@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: rgba(255, 255, 255, 0.853);
+            font-family:Lato;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: none;
+            overflow: hidden;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: gold;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, background-color 0.3s ease-in-out, width 0.3s ease, height 0.3s ease;
+        }
+        .custom-cursor.expanded {
+    width: 200px; 
+    height: 200px; 
+    background-color: gold;
+    mix-blend-mode: difference;
+}
+
+        header, footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.853);
+            font-size: 1.125rem;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        h1.hover-color:hover {
+    color: #6a06b2;
+}
+
+        .animated-heading-container {
+            height: 220px;
+            margin-top: -10px
+        }
+
+        .fade-text {
+            position: absolute;
+            font-size: 4rem;
+            color: rgba(255, 208, 0, 0.901);
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        .fade-text.hidden {
+            opacity: 0;
+        }
+        .fade-text {
+    /* existing properties */
+    transition: opacity 1s ease-in-out, color 0.3s ease-in-out;
+    
+}
+
+        .logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            cursor: none !important;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .social-icon {
+            color: rgba(255, 255, 255, 0.853);
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: rgba(255, 238, 0, 0.975);
+        }
+
+        .hover-element {
+            cursor: none;
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 6rem;
+            }
+            .fade-text {
+                font-size: 6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    
+    <header>
+        <div class="hover-element">
+            <img src="sid_logo.jpg" alt="Logo" class="logo">
+        </div>
+        <nav>
+            <a href="About.html" class="nav-link">About Me</a>
+            <a href="projects.html" class="nav-link">Projects</a> 
+            <a href="certifications.html" class="nav-link">Certifications</a>
+            <a href="contact.html"class="nav-link">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h1 class="cursor-pointer animate__animated animate__slideInRight hover-element">HEY, I'M</h1>
+        <div class="animated-heading-container cursor-pointer animate__animated animate__slideInRight hover-element" id="animated-heading">
+            <div class="fade-text" id="text1">SIDDHARTH V</div>
+            <div class="fade-text hidden ui-ux-text text-sm" id="text2">
+            A DEVELOPER
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div>
+            <a href="https://github.com/Sidd1542004" class="icon social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/siddharth-v-826340307/" class="icon social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+    
+    <script>
+        const cursor = document.getElementById('customCursor');
+        document.addEventListener('mousemove', function(e) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Handle expanding cursor on hover
+        const hoverElements = document.querySelectorAll('.hover-element');
+        hoverElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('expanded');
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('expanded');
+            });
+        });
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => { cursor.style.display = 'none'; });
+            link.addEventListener('mouseleave', () => { cursor.style.display = 'block'; });
+        });
+        
+        const socialIcons = document.querySelectorAll('.social-icon');
+        socialIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', () => { cursor.style.display = 'none'; });
+            icon.addEventListener('mouseleave', () => { cursor.style.display = 'block'; });
+        });
+
+        const text1 = document.getElementById('text1');
+        const text2 = document.getElementById('text2');
+
+        function toggleText() {
+            if (text1.classList.contains('hidden')) {
+                text2.classList.add('hidden');
+                setTimeout(() => { text1.classList.remove('hidden'); }, 1000);
+            } else {
+                text1.classList.add('hidden');
+                setTimeout(() => { text2.classList.remove('hidden'); }, 1000);
+            }
+        }
+        setInterval(toggleText, 5000);
+        document.getElementById('animated-heading').addEventListener('click',toggleText);
+    </script>
+</body>
+</html>
